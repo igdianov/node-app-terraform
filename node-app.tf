@@ -1,6 +1,7 @@
 variable "access_key" {}
 variable "secret_key" {}
 variable "region" {}
+variable "ami_id" {}
 
 provider "aws" {
   access_key = "${var.access_key}"
@@ -8,24 +9,8 @@ provider "aws" {
   region     = "${var.region}"
 }
 
-data "aws_ami" "node_app_ami" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["packer-example*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["688506836831"]
-}
-
 resource "aws_launch_configuration" "node_app_lc" {
-  image_id      = "${data.aws_ami.node_app_ami.id}"
+  image_id      = "${var.ami_id}"
   instance_type = "t2.micro"
   security_groups = ["${aws_security_group.node_app_websg.id}"]
   lifecycle {
