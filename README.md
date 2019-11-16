@@ -1,4 +1,4 @@
 # node-app-terraform
 Repository to store terraform files
 
-Make release
+Make release 1.0.5
